@@ -1,0 +1,118 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'groovy'
+    id 'info.solidsoft.pitest' version '1.7.0'
+    id 'au.com.dius.pact' version '4.2.14'
+}
+
+apply plugin: 'jacoco'
+
+group = 'com.realworld.webfluxfn'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    contractTestImplementation.extendsFrom testImplementation
+    contractTestRuntime.extendsFrom testRuntime
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('junit-jupiter.version', '5.7.1')
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'com.google.guava:guava:31.1-jre'
+
+    implementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
+
+    implementation 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+    testImplementation 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+    testImplementation 'org.codehaus.groovy:groovy-all:3.0.9'
+
+    testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
+    testImplementation 'org.spockframework:spock-spring:2.0-groovy-3.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.9.3'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    testImplementation 'au.com.dius.pact.provider:junit5:4.3.4'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+pitest {
+    junit5PluginVersion = '0.15'//or 0.14 for Junit Jupiter 5.7 (JUnit Platform 1.7)
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+def excludedClassFilesForReport(classDirectories) {
+    classDirectories.setFrom(files(classDirectories.files.collect {
+        fileTree(dir: it,
+            exclude: ['**/exception/**',
+                      '**/filter/**',
+                      '**/config/**',
+                      '**/aspect/**',
+            ]
+        )
+    }))
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/reports/jacocoHtml")
+    }
+    afterEvaluate {
+        excludedClassFilesForReport(classDirectories)
+    }
+}
+
+jacocoTestCoverageVerification {
+    afterEvaluate {
+        excludedClassFilesForReport(classDirectories)
+    }
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.9
+            }
+        }
+    }
+}
+
+check.dependsOn jacocoTestCoverageVerification
