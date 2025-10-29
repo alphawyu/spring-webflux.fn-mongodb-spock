@@ -9,17 +9,36 @@ We've gone to great lengths to adhere to the **Spring boot + WebFlux (Router Fun
 
 For more information on how to this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
 
+# ATTENTION
+## linux: eg. ubuntu 22+
+  "newer" linux distribution shops with OpenSSL 3.x. This may cause embedded mongo unable to find required libssl1.1 that is required by old version of mongo
+  `ldconfig -p | grep ssl` to check your version of libssl
+  solution: use 6.0.4 and later version of mongodb. These versions of mongodb useds libssl3. for example, add this line to application.properties file
+  `spring.mongodb.embedded.version=6.0.4`
+
+  this code is tested with ubuntu 24
 
 # How it works
-It uses Java 17, preferably openJdk 17, and Spring Reactive Stack: WebFlux + Spring Data Reactive MongoDB.  
+It uses Java 25 (tested with openJdk 25), and Spring Reactive Stack: WebFlux + Spring Data Reactive MongoDB. (spring boot 3.5 and embedded mongodb 4)  
 It provides ability to handle concurrency with a small number of threads and scale with fewer hardware resources, with functional developemnt approach.
 - [WebFlux](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html) \
-    NOTE: spring boot 5 webflux uses [Reactor](https://projectreactor.io/docs/core/release/reference/) version 3
+    NOTE: spring boot 3.5 webflux uses [Reactor](https://projectreactor.io/docs/core/release/reference/) version 3
 - [MongoDB Reactive](https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mongo.reactive)
+
+current version is in main branch as well as __spring-3__ branch
+* java 25
+* gradle 9 (tested with 9.2.0)
+* spring boot 3.5 
+
+earilier version is in __spring-2__ branch 
+* java 17
+* gradle 7
+* spring boot 2.5
 
 
 ## Database
-It uses embedded MongoDB database for demonstration purposes.
+It uses embedded MongoDB database for demonstration purposes, and save the trouble to install mongo db for the test run.
+This code is also tested work with community version of mongodb. 
 
 
 ## Basic approach
@@ -47,7 +66,7 @@ The quality & architecture of this Conduit implementation reflect something simi
 
 
 # Getting started
-You need Java 17 installed.
+You need Java 25 installed, and gradle 9 (SEE gradle/wrapper/gradle-wrapper.properties)
 ```
 ./gradlew bootRun
 ```
@@ -75,3 +94,4 @@ Please fork and PR to improve the project.
 Thanks to project [Spring Boot + WebFlux + MongoDB](https://github.com/a-mountain/realworld-spring-webflux) from which 
 this project adopted its code bases of the data model, with the Functional WebFlux Approach (Router Function).
 
+  

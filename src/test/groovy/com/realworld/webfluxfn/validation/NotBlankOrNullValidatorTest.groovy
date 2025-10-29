@@ -2,15 +2,13 @@ package com.realworld.webfluxfn.validation
 
 import com.realworld.webfluxfn.dto.request.UpdateArticleRequest
 import org.hibernate.validator.internal.engine.ConstraintViolationImpl
-import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
-import javax.validation.ConstraintViolation
-import javax.validation.Validation
-import javax.validation.Validator
-import javax.validation.ValidatorFactory
+import jakarta.validation.ConstraintViolation
+import jakarta.validation.Validation
+import jakarta.validation.Validator
+import jakarta.validation.ValidatorFactory
 
-@SpringBootTest
 class NotBlankOrNullValidatorTest extends Specification {
     private static ValidatorFactory validatorFactory;
     private static Validator validator;

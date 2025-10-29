@@ -8,6 +8,4 @@ public class SpringMongoReactiveApplication {
     public static void main(final String[] args) {
         SpringApplication.run(SpringMongoReactiveApplication.class, args);
     }
-
 }
-

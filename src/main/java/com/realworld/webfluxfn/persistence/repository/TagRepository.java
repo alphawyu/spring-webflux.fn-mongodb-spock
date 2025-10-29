@@ -15,6 +15,7 @@ public interface TagRepository extends ReactiveMongoRepository<Tag, String> {
                 .onErrorContinue(DuplicateKeyException.class, nothing());
     }
 
+    @SuppressWarnings("unused")
     private BiConsumer<Throwable, Object> nothing() {
         return (throwable, o) -> {
         };

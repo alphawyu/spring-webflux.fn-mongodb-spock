@@ -14,6 +14,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.web.server.ServerHttpSecurity.AuthorizeExchangeSpec;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -83,7 +85,7 @@ class SecurityTest {
 
         @Bean
         @Primary
-        SecurityConfig.EndpointsSecurityConfig testEndpointsConfig() {
+        Customizer<AuthorizeExchangeSpec> testEndpointsConfig() {
             return http -> http
                     .pathMatchers("/permitAll").permitAll()
                     .pathMatchers("/authenticated").authenticated();

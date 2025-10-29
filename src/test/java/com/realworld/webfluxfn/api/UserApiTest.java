@@ -6,6 +6,7 @@ import com.realworld.webfluxfn.dto.request.UpdateUserRequest;
 import com.realworld.webfluxfn.dto.request.UserRegistrationRequest;
 import com.realworld.webfluxfn.dto.view.UserView;
 import com.realworld.webfluxfn.persistence.repository.UserRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,12 +118,13 @@ class UserApiTest {
         userApiTestClient.signup(followeeRegistrationRequest);
         var follower = userApiTestClient.signup(followerRegistrationRequest);
         assert follower != null;
+        
         var followeeUsername = followeeRegistrationRequest.getUsername();
         var followerAuthToken = follower.getToken();
         var followeeProfile = userApiTestClient.follow(followeeUsername, followerAuthToken);
+        assert followeeProfile != null;
 
         var profileDto = userApiTestClient.getProfile(followeeUsername, followerAuthToken);
-
         assert profileDto != null;
         assertThat(profileDto.getUsername()).isEqualTo(followeeUsername);
         assertThat(profileDto.isFollowing()).isTrue();
@@ -137,9 +139,9 @@ class UserApiTest {
         userApiTestClient.signup(followeeRegistrationRequest);
         var followerDto = userApiTestClient.signup(followerRegistrationRequest);
         assert followerDto != null;
+
         var followeeUsername = followeeRegistrationRequest.getUsername();
         var authToken = followerDto.getToken();
-
         var profileDto = userApiTestClient.follow(followeeUsername, authToken);
 
         requireNonNull(profileDto);
@@ -154,12 +156,11 @@ class UserApiTest {
         var followerRegistrationRequest = UserSamples.sampleUserRegistrationRequest()
                 .setEmail("testemail2@gmail.com")
                 .setUsername("testname2");
+                
         var followerDto = prepareFollowerAndFollowee(followeeRegistrationRequest, followerRegistrationRequest);
         var followeeUsername = followeeRegistrationRequest.getUsername();
         var authToken = followerDto.getToken();
-
         var body = userApiTestClient.unfollow(followeeUsername, authToken);
-
         assert body != null;
         assertThat(body.getUsername()).isEqualTo(followeeUsername);
         assertThat(body.isFollowing()).isFalse();

@@ -14,6 +14,6 @@ public class LocaleConfigurer implements ApplicationListener<ContextRefreshedEve
      */
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent event) {
-//        Locale.setDefault(Locale.ENGLISH);
+       Locale.setDefault(Locale.ENGLISH);
     }
 }

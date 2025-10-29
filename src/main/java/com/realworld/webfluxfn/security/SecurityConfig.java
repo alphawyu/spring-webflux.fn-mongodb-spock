@@ -3,6 +3,7 @@ package com.realworld.webfluxfn.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -16,24 +17,24 @@ public class SecurityConfig {
 
     @Bean
     /* default */ SecurityWebFilterChain securityWebFilterChain(final ServerHttpSecurity http,
-                                                                final AuthenticationWebFilter webFilter,
-                                                                final EndpointsSecurityConfig endpointsConfig) {
-        return endpointsConfig.apply(http.authorizeExchange())
-                .and()
+            final AuthenticationWebFilter webFilter,
+            final Customizer<AuthorizeExchangeSpec> endpointsConfig) {
+        return http.authorizeExchange(endpointsConfig)
                 .addFilterAt(webFilter, SecurityWebFiltersOrder.AUTHENTICATION)
-                .httpBasic().disable()
-                .cors().disable()
-                .csrf().disable()
-                .formLogin().disable()
-                .logout().disable()
+                .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
+                .cors(ServerHttpSecurity.CorsSpec::disable)
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
+                .logout(ServerHttpSecurity.LogoutSpec::disable)
                 .build();
     }
 
     /**
-     * Moving endpoints config to particular interface allow to change endpoints in tests.
+     * Moving endpoints config to particular interface allow to change endpoints in
+     * tests.
      */
     @Bean
-    /* default */ EndpointsSecurityConfig endpointsConfig() {
+    /* default */ Customizer<AuthorizeExchangeSpec>  endpointsConfig() {
         return http -> http
                 .pathMatchers(HttpMethod.POST, "/api/users", "/api/users/login").permitAll()
                 .pathMatchers(HttpMethod.GET, "/api/profiles/**").permitAll()
@@ -41,9 +42,5 @@ public class SecurityConfig {
                 .pathMatchers(HttpMethod.GET, "/api/tags/**").permitAll()
                 .anyExchange().authenticated();
     }
-
-    @FunctionalInterface
-    public interface EndpointsSecurityConfig {
-        AuthorizeExchangeSpec apply(AuthorizeExchangeSpec http);
-    }
+ 
 }

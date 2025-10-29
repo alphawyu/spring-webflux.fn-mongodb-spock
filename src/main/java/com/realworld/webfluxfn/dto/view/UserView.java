@@ -4,11 +4,8 @@ import com.realworld.webfluxfn.persistence.entity.User;
 import com.realworld.webfluxfn.service.user.UserSessionProvider;
 import lombok.*;
 import lombok.experimental.Accessors;
-import lombok.experimental.FieldDefaults;
 
-//@Data
 @Accessors(chain = true)
-//@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
 @EqualsAndHashCode

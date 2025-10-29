@@ -31,7 +31,6 @@ class ArticleRepositoryTest {
         articleRepository.deleteAll().block();
     }
 
-
     @Nested
     class FindMostRecentArticlesByAuthorIds {
         @Test
@@ -74,7 +73,7 @@ class ArticleRepositoryTest {
             var actual = articleRepository.findNewestArticlesFilteredBy("test_tag_2", null, null, size, 0)
                     .collectList()
                     .block();
-
+                    
             assert actual != null;
             assertThat(actual).isEqualTo(expected);
         }
