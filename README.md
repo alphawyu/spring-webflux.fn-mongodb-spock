@@ -67,6 +67,12 @@ The quality & architecture of this Conduit implementation reflect something simi
 
 # Getting started
 You need Java 25 installed, and gradle 9 (SEE gradle/wrapper/gradle-wrapper.properties)
+
+Update gradle.properties for your java installation. 
+Alternatively, configure JAVA_HOME environment variable, and clean up gradle.properties.
+Optionly, update gradle/wrapper/gradle-wrapper.properties for a different gradle version. 
+
+Run gradle bootRun to start this implementation of "Real World":
 ```
 ./gradlew bootRun
 ```
@@ -76,10 +82,11 @@ Alternatively, you can run
 ```
 curl http://localhost:8080/api/tags
 ```
+or use "real world" postman collection at [here](https://github.com/gothinkster/realworld/blob/main/api/Conduit.postman_collection.json)
 
 # Run test
 
-The repository contains a lot of test cases to cover both api test and repository test.
+The repository contains a lot of test cases to cover api, repository, and integration test.
 
 ```
 ./gradlew test
@@ -88,6 +95,7 @@ The repository contains a lot of test cases to cover both api test and repositor
 # Help
 
 Please fork and PR to improve the project.
+Please leave suggestions or comment to the repo, or send to [alphawy\@hotmail.com](mailto:alphawy\@hotmail.com)
 
 # Credits
 
