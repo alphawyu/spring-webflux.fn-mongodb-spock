@@ -16,7 +16,7 @@ For more information on how to this works with other frontends/backends, head ov
   solution: use 6.0.4 and later version of mongodb. These versions of mongodb useds libssl3. for example, add this line to application.properties file
   `spring.mongodb.embedded.version=6.0.4`
 
-  this code is tested with ubuntu 24
+This code is verified working with **ubuntu 24** and **windows 10**.
 
 # How it works
 It uses Java 25 (tested with openJdk 25), and Spring Reactive Stack: WebFlux + Spring Data Reactive MongoDB. (spring boot 3.5 and embedded mongodb 4)  
