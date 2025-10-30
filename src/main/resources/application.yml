@@ -1,8 +1,14 @@
 jwt.sessionTime: 86400
 logging:
     level:
-      org.springframework.data.mongodb.core.ReactiveMongoTemplate: DEBUG
+      org:
+        springframework: 
+          security: DEBUG
+          data.mongodb.core.ReactiveMongoTemplate: DEBUG
+          boot.autoconfigure.mongo.embedded.EmbeddedMongo: DEBUG
 spring.data.mongodb.auto-index-creation: true
+
+de.flapdoodle.mongodb.embedded.version: 6.0.5
 #spring.data.mongodb.username=root
 #spring.data.mongodb.password=1234
 #spring.data.mongodb.port=27017

@@ -4,22 +4,42 @@
 
 
 This codebase was created to demonstrate a backend of a fully fledged fullstack application built with **Spring boot + WebFlux (Router Function) ** including CRUD operations, authentication, routing, pagination, and more.
+### [Demo](https://demo.realworld.build/)&nbsp;&nbsp;&nbsp;&nbsp;[RealWorld](https://github.com/gothinkster/realworld)
 
 We've gone to great lengths to adhere to the **Spring boot + WebFlux (Router Function) ** community style guides & best practices.
 
 For more information on how to this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
 
+# ATTENTION
+## linux: eg. ubuntu 22+
+  "newer" linux distribution shops with OpenSSL 3.x. This may cause embedded mongo unable to find required libssl1.1 that is required by old version of mongo
+  `ldconfig -p | grep ssl` to check your version of libssl
+  solution: use 6.0.4 and later version of mongodb. These versions of mongodb useds libssl3. for example, add this line to application.properties file
+  `spring.mongodb.embedded.version=6.0.4`
+
+This code is verified working with **ubuntu 24** and **windows 10**.
 
 # How it works
-It uses Java 17, preferably openJdk 17, and Spring Reactive Stack: WebFlux + Spring Data Reactive MongoDB.  
+It uses Java 25 (tested with openJdk 25), and Spring Reactive Stack: WebFlux + Spring Data Reactive MongoDB. (spring boot 3.5 and embedded mongodb 4)  
 It provides ability to handle concurrency with a small number of threads and scale with fewer hardware resources, with functional developemnt approach.
 - [WebFlux](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html) \
-    NOTE: spring boot 5 webflux uses [Reactor](https://projectreactor.io/docs/core/release/reference/) version 3
+    NOTE: spring boot 3.5 webflux uses [Reactor](https://projectreactor.io/docs/core/release/reference/) version 3
 - [MongoDB Reactive](https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mongo.reactive)
+
+current version is in main branch as well as __spring-3__ branch
+* java 25
+* gradle 9 (tested with 9.2.0)
+* spring boot 3.5 
+
+earilier version is in __spring-2__ branch 
+* java 17
+* gradle 7
+* spring boot 2.5
 
 
 ## Database
-It uses embedded MongoDB database for demonstration purposes.
+It uses embedded MongoDB database for demonstration purposes, and save the trouble to install mongo db for the test run.
+This code is also tested work with community version of mongodb. 
 
 
 ## Basic approach
@@ -47,7 +67,13 @@ The quality & architecture of this Conduit implementation reflect something simi
 
 
 # Getting started
-You need Java 17 installed.
+You need Java 25 installed, and gradle 9 (SEE gradle/wrapper/gradle-wrapper.properties)
+
+Update gradle.properties for your java installation. 
+Alternatively, configure JAVA_HOME environment variable, and clean up gradle.properties.
+Optionly, update gradle/wrapper/gradle-wrapper.properties for a different gradle version. 
+
+Run gradle bootRun to start this implementation of "Real World":
 ```
 ./gradlew bootRun
 ```
@@ -57,10 +83,11 @@ Alternatively, you can run
 ```
 curl http://localhost:8080/api/tags
 ```
+or use "real world" postman collection at [here](https://github.com/gothinkster/realworld/blob/main/api/Conduit.postman_collection.json)
 
 # Run test
 
-The repository contains a lot of test cases to cover both api test and repository test.
+The repository contains a lot of test cases to cover api, repository, and integration test.
 
 ```
 ./gradlew test
@@ -69,9 +96,11 @@ The repository contains a lot of test cases to cover both api test and repositor
 # Help
 
 Please fork and PR to improve the project.
+Please leave suggestions or comment to the repo, or send to [alphawy\@hotmail.com](mailto:alphawy\@hotmail.com)
 
 # Credits
 
 Thanks to project [Spring Boot + WebFlux + MongoDB](https://github.com/a-mountain/realworld-spring-webflux) from which 
 this project adopted its code bases of the data model, with the Functional WebFlux Approach (Router Function).
 
+  

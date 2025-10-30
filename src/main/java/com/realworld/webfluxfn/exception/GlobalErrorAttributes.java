@@ -13,7 +13,6 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
 
     private static final ErrorAttributeOptions INCLUDING_OPTIONS = ErrorAttributeOptions.of(
             ErrorAttributeOptions.Include.EXCEPTION,
-//            ErrorAttributeOptions.Include.STACK_TRACE,
             ErrorAttributeOptions.Include.MESSAGE,
             ErrorAttributeOptions.Include.BINDING_ERRORS);
 
@@ -24,6 +23,9 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
         switch(exception) {
             case "com.realworld.webfluxfn.exception.InvalidRequestException":
                 map.put("status", HttpStatus.SC_UNPROCESSABLE_ENTITY);
+                break;
+            case "org.springframework.web.bind.support.WebExchangeBindException":
+                map.put("status", HttpStatus.SC_BAD_REQUEST);
                 break;
         }
         return map;

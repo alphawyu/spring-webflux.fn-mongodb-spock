@@ -39,6 +39,7 @@ class SecuredUserService {
         });
     }
 
+    @SuppressWarnings("unused")
     public Mono<UserView> signup(final UserRegistrationRequest request) {
         final User rawUser = request.toRawUser();
         return this.applyUsernameFromProvided(request.getUsername(), rawUser, true)

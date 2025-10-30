@@ -3,14 +3,11 @@ package com.realworld.webfluxfn.dto.view;
 import com.google.common.collect.ImmutableList;
 import lombok.*;
 import lombok.experimental.Accessors;
-import lombok.experimental.FieldDefaults;
 
 import java.util.Collections;
 import java.util.List;
 
-//@Data
 @Accessors(chain = true)
-//@FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 public class MultipleArticlesView {
 

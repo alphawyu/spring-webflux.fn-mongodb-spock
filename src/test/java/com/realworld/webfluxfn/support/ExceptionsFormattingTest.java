@@ -5,6 +5,7 @@ import com.realworld.webfluxfn.exception.GlobalErrorWebExceptionHandler;
 import com.realworld.webfluxfn.exception.InvalidRequestException;
 import com.realworld.webfluxfn.validation.LocaleConfigurer;
 import org.hibernate.validator.constraints.Length;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration;
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -32,6 +33,7 @@ class ExceptionsFormattingTest {
     WebTestClient client;
 
     @Test
+    @DisplayName("The non-validation exception, returns UNPROCESSABLE_ENTITY")
     void shouldFormatInvalidRequestException() {
         client.get()
                 .uri("/error")
@@ -42,6 +44,7 @@ class ExceptionsFormattingTest {
     }
 
     @Test
+    @DisplayName("The valication exception, returns BAD_REQUEST")
     void shouldFormatValidationError() {
         var body = new TestDTO()
                 .setEmail("not a email")

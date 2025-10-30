@@ -14,6 +14,7 @@ import com.realworld.webfluxfn.dto.view.UserView;
 import com.realworld.webfluxfn.persistence.repository.ArticleRepository;
 import com.realworld.webfluxfn.persistence.repository.TagRepository;
 import com.realworld.webfluxfn.persistence.repository.UserRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.time.Instant;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -270,9 +270,10 @@ class ArticleApiTest {
 
         var article1 = articleApiTestClient.createArticle(createArticleRequest1, user1.getToken());
         var article2 = articleApiTestClient.createArticle(createArticleRequest2, user2.getToken());
-        articleApiTestClient.createArticle(createArticleRequest3, user2.getToken());
         assert article1 != null;
         assert article2 != null;
+
+        articleApiTestClient.createArticle(createArticleRequest3, user2.getToken());
         return new ArticlesAndUsers(List.of(article1, article2), List.of(user1, user2));
     }
 

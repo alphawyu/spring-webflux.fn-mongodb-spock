@@ -5,11 +5,10 @@ import com.realworld.webfluxfn.persistence.entity.Article;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Collections;
 import java.util.List;
 
-//@Data
 @Accessors(chain = true)
 @Getter
 @Setter
@@ -24,7 +23,6 @@ public class CreateArticleRequest {
     @NotBlank
     private String body;
 
-//    @Singular
     private ImmutableList<String> tagList = ImmutableList.of();
 
     public Article toArticle(final String id, final String authorId) {

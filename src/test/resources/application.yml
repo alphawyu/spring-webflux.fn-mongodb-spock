@@ -16,3 +16,6 @@ logging:
 
 spring.data:
     mongodb.auto-index-creation: true
+
+# NOTE: mongodb version has to be 6.0.5 or later for embedded mongodb to use libssl3 that is shipped by default with ubuntu 22+ 
+de.flapdoodle.mongodb.embedded.version: 6.0.5
